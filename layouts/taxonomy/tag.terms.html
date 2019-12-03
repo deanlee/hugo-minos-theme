@@ -1,0 +1,19 @@
+{{ define "main" }}
+    <section class="section section-heading">
+        <div class="container">
+            <div class="content"><h5>#Tags</h5></div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-variable is-1 is-multiline is-mobile">
+                <span class="column is-narrow">
+                    {{- range .Data.Terms.ByCount -}}
+                    <a class="tag is-light article-tag" href="{{.Page.RelPermalink}}">#{{.Page.Title}}&nbsp;({{.Count}})</a>
+                    {{end}}
+                </span>
+            </div>
+        </div>
+    </section>
+{{end}}
+

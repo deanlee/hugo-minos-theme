@@ -1,0 +1,8 @@
+<div  class="video">
+    <video style="width: 100%;"  preload="metadata" controls="controls">
+        {{ with .Get "src" }}
+            <source type="video/mp4" src="{{ . }}" />
+            <a href="{{ . }}">{{ . }}</a>
+        {{end}}
+    </video>
+</div>

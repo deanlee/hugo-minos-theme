@@ -1,0 +1,23 @@
+{{ partial "header" . }}
+<section class="section">
+    <div class="container">
+        <article>
+            {{/*    <h2> {{- .Site.Params.info.title404 | default .Title -}}</h2>*/}}
+            <figure class='image'>
+                <a href='{{ "/" | relLangURL }}'>
+                    <img src='{{ ( .Site.Params.assets.gopher | default "/assets/gopher.png" ) | relURL }}'
+                         alt='{{ i18n "gopher" }}'/>
+                    <span class='sr'>{{- i18n "goHome" -}}</span>
+                </a>
+                <figcaption>
+                    <h1 class='title'>
+                        <a href='{{ "/" | relLangURL }}'>
+                            {{- .Site.Params.info.title404 | default .Title -}}
+                        </a>
+                    </h1>
+                </figcaption>
+            </figure>
+        </article>
+    </div>
+</section>
+{{ partial "footer" . }}

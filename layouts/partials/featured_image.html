@@ -1,0 +1,23 @@
+{{$featured_img := .Params.featured_image}}
+{{ if $featured_img }}
+    {{ range $elem_val := .Resources }}
+        {{if eq $elem_val.Name $featured_img}}
+            <p>
+                {{$singlePage:=$.Scratch.Get "single_page"}}
+                {{ if not $singlePage}}
+                <a href="{{ $.Page.Permalink }}">
+                    {{end}}
+                    {{if $.Page.Site.Params.images.lazyLoad}}
+                        <img data-src="{{.RelPermalink }}" class="lazyload" alt="image from {{ $.Page.Title }}"
+                             width="{{.Width}}" height="{{.Height}}">
+                    {{else}}
+                        <img src="{{.RelPermalink }}" alt="image from {{ $.Page.Title }}" width="{{$elem_val.Width}}"
+                             height="{{.Height}}">
+                    {{end}}
+                    {{if not $singlePage}}
+                </a>
+                {{end}}
+            </p>
+        {{end}}
+    {{ end }}
+{{ end }}

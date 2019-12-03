@@ -1,0 +1,33 @@
+{{ if gt .Paginator.TotalPages 1 }}
+    <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
+        {{ with .Paginator.Prev }}
+                <div class="pagination-previous"><a href="{{ .URL }}">Prev</a></div>
+        {{else}}
+            <div class="pagination-previous is-invisible is-hidden-mobile"><a href="javascript://">Prev</a></div>
+        {{end}}
+        {{ with .Paginator.Next }}
+                <div class="pagination-next"><a href="{{ .URL }}">Next</a></div>
+        {{else}}
+            <div class="pagination-next is-invisible is-hidden-mobile"><a href="javascript://">Next</a></div>
+        {{ end }}
+        {{$hasPrevDots:= false}}
+        {{$hasNextDots:= false}}
+        <ul class="pagination-list is-hidden-mobile">
+        {{ range .Paginator.Pagers }}
+            {{ if ( eq . $.Paginator ) }}
+                <li><a class="pagination-link is-current" href=""> {{- .PageNumber -}}</a></li>
+            {{ else if or ( or ( eq . $.Paginator.First ) ( eq . $.Paginator.Prev ) ) ( or ( eq . $.Paginator.Next ) ( eq . $.Paginator.Last ) ) }}
+                <li><a class="pagination-link" href="{{ .URL }}">{{- .PageNumber -}}</a></li>
+            {{ else }}
+                {{ if and ( not $hasPrevDots ) ( lt .PageNumber $.Paginator.PageNumber )  }}
+                    {{ $hasPrevDots = true}}
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                {{ else if and ( not $hasNextDots ) ( gt .PageNumber $.Paginator.PageNumber ) }}
+                    {{- $hasNextDots = true -}}
+                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        </ul>
+    </nav>
+{{ end }}

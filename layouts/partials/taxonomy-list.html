@@ -1,0 +1,12 @@
+{{- $txs := ( $.Scratch.Get "taxonomy" ) -}}
+{{- $tx := ( $txs | singularize ) -}}
+{{- $taxonomies := ( index $.Site.Taxonomies $txs ) -}}
+<div class="columns is-variable is-1 is-multiline is-mobile">
+    {{- range $i, $term := ( index $.Params $txs ) -}}
+        {{- with ( index $taxonomies ( $term | anchorize ) ) -}}
+            <span class="column is-narrow">
+                <a class="tag is-light article-tag" href="{{ .Page.RelPermalink }}">#{{- .Page.Title -}}</a>
+            </span>
+        {{- end -}}
+    {{- end -}}
+</div>

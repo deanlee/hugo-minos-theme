@@ -1,0 +1,9 @@
+<article class="article content gallery">
+    {{- .Scratch.Set "single_page" false -}}
+    {{ partial "entry_header" . }}
+    <div class="article-entry is-size-6-mobile">
+        {{partial "featured_image.html" .}}
+        {{ .Summary }}
+        {{- if .Truncated }}<p class="article-more-link"><a href="{{ .Permalink }}">Read More</a></p>{{ end -}}
+    </div>
+</article>

@@ -1,0 +1,6 @@
+{{- $image := .Page.Resources.GetMatch (printf "*%s*" (.Get "src")) -}}
+{{if $.Site.Params.images.lazyLoad}}
+<p><img data-src="{{$image.RelPermalink }}" class="lazyload" {{ if or (.Get "alt") (.Get "caption") }}alt="{{ with .Get "alt"}}{{.}}{{else}}{{ .Get "caption" }}{{ end }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}"/></p>
+{{else}}
+<p><img src="{{$image.RelPermalink }}" {{ if or (.Get "alt") (.Get "caption") }}alt="{{ with .Get "alt"}}{{.}}{{else}}{{ .Get "caption" }}{{ end }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}"/></p>
+{{end}}

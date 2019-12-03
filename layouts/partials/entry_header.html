@@ -1,0 +1,30 @@
+<h1 class="article-title is-size-3 is-size-4-mobile">
+    {{$singlePage:=$.Scratch.Get "single_page"}}
+    {{if not $singlePage}}<a href="{{ .Permalink }}">{{.Title}}</a>{{else}}{{ .Title }}{{end}}
+</h1>
+<div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+    {{- if eq .Type "post"}}
+        {{- $dateFormat := ( .Site.Params.settings.dateFormat | default "2006, Jan 02" ) -}}
+        <span class="column is-narrow"><time>{{- .Date.Format $dateFormat -}}</time> </span>
+    {{end -}}
+    {{- $taxonomies := ( index $.Site.Taxonomies "categories" ) -}}
+    {{- $cats :=$.Params.categories -}}
+    {{ if $cats}}
+        <span class="column is-narrow article-category">
+            <svg class="svg-inline--fa fa-folder fa-w-16" aria-hidden="true"
+                 data-prefix="far" data-icon="folder" role="img"
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                 data-fa-i2svg=""><path fill="currentColor"
+                                        d="M464 128H272l-64-64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm-6 272H54c-3.314 0-6-2.678-6-5.992V117.992A5.993 5.993 0 0 1 54 112h134.118l64 64H458a6 6 0 0 1 6 6v212a6 6 0 0 1-6 6z"></path></svg>
+            {{- range $i, $term := ( index $.Params "categories" ) -}}
+                {{- if gt $i 0 }}
+                    <span>, </span>
+                {{ end -}}
+                {{- with ( index $taxonomies ( $term | anchorize ) ) -}}
+                    <a class="article-category-link" href="{{ .Page.RelPermalink }}">{{- .Page.Title -}}</a>
+                {{- end -}}
+            {{ end }}
+            </span>
+    {{ end }}
+    {{/*        <span class="column is-narrow">{{.ReadingTime}} MINUTES READ</span>*/}}
+</div>

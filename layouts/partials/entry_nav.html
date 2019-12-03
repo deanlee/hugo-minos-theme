@@ -1,0 +1,24 @@
+{{- $config := ( .Site.Params.settings.hideEntryNavigation ) -}}
+{{- $configType := ( printf "%T" $config ) -}}
+
+{{- if ( eq $configType "bool" ) -}}
+    {{- $.Scratch.Set "showEntryNav" ( not $config ) -}}
+{{- else -}}
+    {{- $.Scratch.Set "showEntryNav" ( not ( in $config .Section ) ) -}}
+{{- end -}}
+{{- if ( $.Scratch.Get "showEntryNav" ) -}}
+    {{ if gt ( len ( where .Site.RegularPages "Section" .Section ) ) 1 }}
+        <div class="columns is-mobile is-multiline article-nav">
+            {{- if .PrevInSection -}}
+                <span class="column is-12-mobile is-half-desktop article-nav-prev">
+                    <a href="{{ .PrevInSection.Permalink | relURL }}"> {{- .PrevInSection.Title -}}</a>
+                </span>
+            {{- end -}}
+            {{- if .NextInSection -}}
+                <span class="column is-12-mobile is-half-desktop article-nav-next">
+                    <a href="{{ .NextInSection.Permalink | relURL }}"> {{- .NextInSection.Title -}}</a>
+                </span>
+            {{- end -}}
+        </div>
+    {{ end }}
+{{- end -}}

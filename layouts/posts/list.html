@@ -1,0 +1,19 @@
+{{ define "main" }}
+    <section class="section">
+        <div class="container">
+            {{- $dateFormat := ( .Site.Params.settings.archiveDateFormat | default "Jan 02" ) -}}
+            {{ range .Pages.GroupByDate "2006" }}
+                <div class="archive content"><h4 class="title is-4" id="{{.Key}}">{{.Key}}</h4>
+                    {{ range  .Pages }}
+                        <div class="articles">
+                            <div class="article content>">
+                                <time class="is-text-small"> {{ .Date.Format $dateFormat }}</time>
+                                <h6 class="title is-6"><a href="{{ .Permalink }}">{{ .Title }}</a></h6>
+                            </div>
+                        </div>
+                    {{end}}
+                </div>
+            {{end}}
+        </div>
+    </section>
+{{end}}

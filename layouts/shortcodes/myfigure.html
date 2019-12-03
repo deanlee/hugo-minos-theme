@@ -1,0 +1,40 @@
+{{/*{{- $original := .Page.Resources.GetMatch (printf "*%s*" (.Get 0)) -}}*/}}
+{{/*{{- $alt := .Get 1 -}}*/}}
+{{/*{{- $caption := .Get 2 -}}*/}}
+{{/*{{ if not $alt}}*/}}
+{{/*    {{ $alt = printf "image from %s"  .Page.Title  }}*/}}
+{{/*{{end}}*/}}
+{{/*{{ $image := .Scratch.Get "image" }}*/}}
+{{/*<figure class="myimage">*/}}
+{{/*    <img  src="{{ $original.RelPermalink }}" width="{{ $original.Width }}" height="{{ $original.Height }}" alt="{{$alt}}">*/}}
+{{/*    {{ if $caption}}*/}}
+{{/*    <figcaption>*/}}
+{{/*        <small> {{$caption}}*/}}
+{{/*            {{ with .Inner }}*/}}
+{{/*                {{ . }}*/}}
+{{/*            {{ end }}*/}}
+{{/*        </small>*/}}
+{{/*    </figcaption>*/}}
+{{/*    {{end}}*/}}
+{{/*</figure>*/}}
+{{- $image := .Page.Resources.GetMatch (printf "*%s*" (.Get "src")) -}}
+<figure {{ with .Get "class" }}class="{{.}}"{{ end }}>
+    {{ with .Get "link"}}<a href="{{.}}">{{ end }}
+        {{if $.Site.Params.images.lazyLoad}}
+            <img data-src="{{$image.RelPermalink }}" class="lazyload" {{ if or (.Get "alt") (.Get "caption") }}alt="{{ with .Get "alt"}}{{.}}{{else}}{{ .Get "caption" }}{{ end }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}"/>
+        {{else}}
+            <img src="{{$image.RelPermalink }}" {{ if or (.Get "alt") (.Get "caption") }}alt="{{ with .Get "alt"}}{{.}}{{else}}{{ .Get "caption" }}{{ end }}"{{ end }} width="{{ $image.Width }}" height="{{ $image.Height }}"/>
+        {{end}}
+        {{ if .Get "link"}}</a>{{ end }}
+    {{ if or (or (.Get "title") (.Get "caption")) (.Get "attr")}}
+        <figcaption>{{ if isset .Params "title" }}
+                <h4>{{ .Get "title" }}</h4>{{ end }}
+            {{ if or (.Get "caption") (.Get "attr")}}<p>
+                {{ .Get "caption" }}
+                {{ with .Get "attrlink"}}<a href="{{.}}"> {{ end }}
+                    {{ .Get "attr" }}
+                    {{ if .Get "attrlink"}}</a> {{ end }}
+            </p> {{ end }}
+        </figcaption>
+    {{ end }}
+</figure>
